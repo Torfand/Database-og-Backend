@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entity_Framework
 {
@@ -6,7 +8,12 @@ namespace Entity_Framework
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var db = new NorthwindContext();
+            var product = db.Products
+                .Include(p =>p.Category)
+                .First();
+            Console.WriteLine("Prod : " + product.ProductName);
+            Console.WriteLine("Kategori : " + product.Category.CategoryName);
         }
     }
 }
