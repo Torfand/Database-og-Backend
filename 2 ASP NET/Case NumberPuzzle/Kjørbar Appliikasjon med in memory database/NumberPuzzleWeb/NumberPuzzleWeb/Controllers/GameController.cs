@@ -28,15 +28,15 @@ namespace NumberPuzzleWeb.API.Controllers
 
 
         [HttpGet("{gameID})")]
-        public async Task<GameViewModel> Read(Guid gameID)
+        public async Task<GameViewModel> Read(string gameID)
         {
-            var game = await _gameService.Read(gameID);
+            var game = await _gameService.Read(new Guid(gameID));
             return   ViewFromDomainModel(game);
         }
         [HttpPost]
-        public async Task<GameViewModel> Play(int index, Guid gameID)
+        public async Task<GameViewModel> Play(PlayViewModel play)
         {
-            var game = await _gameService.Play(index, gameID);
+            var game = await _gameService.Play(play.Index, new Guid(play.GameID));
             return ViewFromDomainModel(game);
         }
         private static GameViewModel ViewFromDomainModel(GameModel game)

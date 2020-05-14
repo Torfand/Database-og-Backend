@@ -7,7 +7,7 @@ using NumberPuzzleWeb.Core.DomainServices;
 
 namespace NumberPuzzleWeb.I.DataAcsess.Repository
 {
-   public class InMemoryGameRepository : IGameRepository
+    public class InMemoryGameRepository : IGameRepository
     {
         private Dictionary<Guid, GameModel> _gameModels;
         public InMemoryGameRepository()

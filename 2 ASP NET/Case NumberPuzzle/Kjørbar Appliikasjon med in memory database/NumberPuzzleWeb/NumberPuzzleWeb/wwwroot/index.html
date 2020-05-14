@@ -3,17 +3,47 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <link rel="stylesheet" href="CSS/style.css"/>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<div>Lars</div>
+<div id="game"></div>
+<button onclick="startGame()">Start Game</button>
 
 <script>
-    var a = "hei";
-    getData();
-    async function getData() {
-        const response = await axios.get('/api/game');
-        console.log(response);
+
+    let gameModel;
+    startGame();
+    function show() {
+    document.getElementById('game').innerHTML = 
+        gameModel.numbers.map((n,i ) => 
+                                `<div class="square ${i % 3 === 0 ? 'first' : '' }" onclick ="play(${i})">${n}</div>`).join('');
+
+    }
+    async function startGame() {
+
+    let response = await axios.get('/api/game');
+    gameModel = response.data;
+    console.log(gameModel);
+    show();
+    }
+    
+    async function readGame(gameId) {
+        let response = await axios.get('/api/game ' + gameId);
+     
+        gameModel = response.data;
+        console.log(gameModel);
+        show();
+    }
+    async function play(index) {
+        const paramObj = {"index" : index , "gameId" : gameModel.id};
+        console.log(paramObj);
+        let response = await axios.post('/api/game', paramObj)
+       
+    
+        gameModel = response.data;
+        console.log(gameModel);
+        show();
     }
 </script>
 </body>
