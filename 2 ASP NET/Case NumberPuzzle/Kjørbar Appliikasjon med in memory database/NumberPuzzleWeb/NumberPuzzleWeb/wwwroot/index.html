@@ -5,6 +5,7 @@
     <title></title>
     <link rel="stylesheet" href="CSS/style.css"/>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="game.js"></script>
 </head>
 <body>
 <div id="game"></div>
@@ -21,7 +22,6 @@
 
     }
     async function startGame() {
-
     let response = await axios.get('/api/game');
     gameModel = response.data;
     console.log(gameModel);
