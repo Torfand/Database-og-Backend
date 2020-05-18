@@ -10,17 +10,18 @@ namespace NumberPuzzleWeb.Core.Domain_Model
         private readonly int[] _numbers;
         private readonly Random _random;
         public int PlayCount { get; private set; }
+
         public bool IsSolved => Enumerable.Range(0, _numbers.Length - 1)
-                                          .All(i => _numbers[i] == i + 1);
+            .All(i => _numbers[i] == i + 1);
 
         public char[] Numbers => Enumerable.Range(0, _numbers.Length)
-                                           .Select(i => this[i])
-                                           .ToArray();
+            .Select(i => this[i])
+            .ToArray();
 
         public GameModel(Guid id, int playCount, int[] numbers = null) : base(id)
         {
             PlayCount = playCount;
-            _numbers = (int[])numbers.Clone();
+            _numbers = (int[]) numbers.Clone();
         }
 
         public GameModel(int[] numbers = null)

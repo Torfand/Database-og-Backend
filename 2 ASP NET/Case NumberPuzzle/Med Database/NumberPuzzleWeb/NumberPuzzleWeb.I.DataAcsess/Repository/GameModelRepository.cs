@@ -13,12 +13,18 @@ namespace NumberPuzzleWeb.I.DataAcsess.Repository
 {
     public class GameModelRepository : IGameRepository
     {
-        private string _connectionstring =
-            @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NumberPuzzle;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private readonly string _connectionString;
+
+        public GameModelRepository(ConnectionString connectionString)
+        {
+            _connectionString = connectionString.Value;
+        }
+        //private string _connectionString =
+        //    @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=NumberPuzzle;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public async Task<bool> Create(GameModel gameModel)
         {
-            await using var conn = new SqlConnection(_connectionstring);
+            await using var conn = new SqlConnection(_connectionString);
             const string insert = "INSERT INTO Game (Id, Numbers, PlayCount) VALUES (@Id, @Numbers, @PlayCount)";
             var dbGameModel = MapToDatabase(gameModel);
             var rowsAffected = await conn.ExecuteAsync(insert, dbGameModel);
@@ -28,7 +34,7 @@ namespace NumberPuzzleWeb.I.DataAcsess.Repository
         }
         public async Task<GameModel> Read(Guid id)
         {
-            await using var conn = new SqlConnection(_connectionstring);
+            await using var conn = new SqlConnection(_connectionString);
             const string select = "SELECT Id, Numbers, PlayCount FROM Game WHERE Id = @Id";
             var result = await conn.QueryAsync<DBGameModel>(select, new { Id = id });
             var gameModel = result.SingleOrDefault();
@@ -37,7 +43,7 @@ namespace NumberPuzzleWeb.I.DataAcsess.Repository
 
         public async Task<bool> Update(GameModel gameModel)
         {
-            await using var conn = new SqlConnection(_connectionstring);
+            await using var conn = new SqlConnection(_connectionString);
             const string insert = "UPDATE Game SET Numbers=@Numbers, PlayCount= @PlayCount WHERE Id=@Id";
             var dbGameModel = MapToDatabase(gameModel);
             var rowsAffected = await conn.ExecuteAsync(insert, dbGameModel);
