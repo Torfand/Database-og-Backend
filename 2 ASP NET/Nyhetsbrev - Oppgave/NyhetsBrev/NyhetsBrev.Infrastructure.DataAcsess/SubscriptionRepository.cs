@@ -33,7 +33,7 @@ namespace NyhetsBrev.Infrastructure.DataAcsess
         {
             await using var conn = new SqlConnection(_connectionString);
             const string read = "SELECT Email, Code FROM Registrations WHERE Email = @Email";
-            var result = await conn.QueryAsync<SubModel>(read, new {Email = email});
+            var result = await conn.QueryAsync<NewsletterModel>(read, new {Email = email});
             var subModel = result.SingleOrDefault();
             return MapToDomain(subModel);
 
@@ -46,7 +46,7 @@ namespace NyhetsBrev.Infrastructure.DataAcsess
            await using var conn = new SqlConnection(_connectionString);
            const string insert = "UPDATE Registrations SET Email=@Email WHERE Code=@Code";
         }
-        private Subscription MapToDomain(SubModel subModel)
+        private Subscription MapToDomain(NewsletterModel newsletterModel)
         {
             throw new NotImplementedException();
         }
