@@ -7,20 +7,20 @@ namespace NyhetsBrev.Infrastructure.DataAcsess.Model
 {
     class NewsletterModel
     {
+        public Guid Id;
         public string Name;
-        private Guid Id;
-        public string Email { get; set; }
-        public string Code { get; set; }
+        public string Email;
+        public string Code;
 
         public NewsletterModel()
         {
             
         }
 
-        public NewsletterModel(string name, Guid id, string email, string code)
+        public NewsletterModel(Guid id, string name, string email, string code)
         {
-            Name = name;
             Id = id;
+            Name = name;
             Email = email;
             Code = code;
         }

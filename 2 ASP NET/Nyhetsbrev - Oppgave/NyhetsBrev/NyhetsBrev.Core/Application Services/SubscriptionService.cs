@@ -13,7 +13,9 @@ namespace NyhetsBrev.Core.Application_Services
         private readonly IEmailService _mailService;
         private readonly ISubscriptionRepository _subRepo;
 
-        public SubscriptionService(IEmailService mailService, ISubscriptionRepository subRepo)
+        public SubscriptionService(
+            IEmailService mailService, 
+            ISubscriptionRepository subRepo)
         {
             _subRepo = subRepo;
             _mailService = mailService;
@@ -22,10 +24,7 @@ namespace NyhetsBrev.Core.Application_Services
         public async Task<bool> Subscribe(Subscription subRequest)
         {
             var subscription =  new Subscription(subRequest.Name, subRequest.Email);
-          
-           
-            ///lagre kode og epost i db
-            /// sende kode på epost / lagre i fil
+            
             await _subRepo.Create(subscription);
             var mailContent
                 = $"<a href=\"https://localhost:5001/subscription?email={subRequest.Email}&vcode={subscription.VerificationCode}\">Click here to confirm</a>";

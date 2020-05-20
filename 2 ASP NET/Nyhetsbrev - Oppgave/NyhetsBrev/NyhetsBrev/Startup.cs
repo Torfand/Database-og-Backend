@@ -10,6 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NyhetsBrev.Core.Application_Services;
+using NyhetsBrev.Core.Domain_Model;
+using NyhetsBrev.Core.Domain_Services;
+using NyhetsBrev.Infrastructure.DataAcsess;
+using NyhetsBrev.Infrastructure.DataAcsess.Repository;
 
 namespace NyhetsBrev
 {
@@ -25,7 +30,19 @@ namespace NyhetsBrev
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            var value = Configuration.GetConnectionString("NewsletterDB");
+            var connectionString = new ConnectionString(value);
+            services.AddSingleton(connectionString);
+
             services.AddControllers();
+
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<SubscriptionService>();
+            services.AddSwaggerDocument();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +58,10 @@ namespace NyhetsBrev
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {

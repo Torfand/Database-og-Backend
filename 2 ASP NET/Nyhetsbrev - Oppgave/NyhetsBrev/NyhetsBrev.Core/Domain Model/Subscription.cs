@@ -6,6 +6,7 @@ namespace NyhetsBrev.Core.Domain_Model
 {
     public class Subscription : BaseModel
     {
+       
         public string Name { get; set; }
         public string Email { get; set; }
         public string VerificationCode { get; set; }
@@ -15,7 +16,7 @@ namespace NyhetsBrev.Core.Domain_Model
             
         }
 
-        public Subscription(string name, string email, string verificationCode = null)
+        public Subscription( string name, string email, string verificationCode = null)
         {
             Name = name;
             Email = email;

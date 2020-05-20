@@ -14,3 +14,6 @@ namespace NyhetsBrev.Core.Domain_Model
         }
     }
 }
+
+
+
